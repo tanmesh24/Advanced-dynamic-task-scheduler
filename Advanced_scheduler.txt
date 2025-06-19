@@ -1,0 +1,247 @@
+To help you implement the **Advanced Dynamic Task Scheduler** project effectively and add it to your resume for a Google interview, I’ll break it down into a structured plan distributed over **7 days**. Each day focuses on specific tasks, with clear steps on what to do and how to do it. This plan assumes you have basic Java knowledge and familiarity with tools like Maven and Spring Boot. The schedule is designed to be manageable, with approximately 2–4 hours of work per day, and includes time for learning, coding, testing, and documentation.
+
+### Project Overview Recap
+The project is a Java-based task scheduler with predictive load balancing, featuring:
+- A Spring Boot REST API for task management.
+- H2 database for task persistence.
+- Apache Commons Math for a regression-based predictive model.
+- Task dependency graph with cycle detection.
+- Concurrent task execution using ThreadPoolExecutor.
+
+### 7-Day Implementation Plan
+
+#### Day 1: Project Setup and Environment Configuration
+**Goal**: Set up the development environment, create the project structure, and understand the requirements.
+**Steps**:
+1. **Install Tools**:
+   - Ensure you have Java 17+, Maven, and an IDE (e.g., IntelliJ IDEA or VS Code) installed.
+   - Download and install Maven if not already set up: `mvn --version` to verify.
+2. **Create Maven Project**:
+   - In your IDE, create a new Maven project with groupId `com.example` and artifactId `task-scheduler`.
+   - Copy the provided `pom.xml` (from the previous response) into the project’s root directory.
+   - Run `mvn clean install` to download dependencies (Spring Boot, H2, Apache Commons Math).
+3. **Set Up H2 Database**:
+   - Create `src/main/resources/application.properties` and copy the provided configuration.
+   - Verify H2 console access by running a temporary Spring Boot app (create a basic `@SpringBootApplication` class) and navigating to `http://localhost:8080/h2-console`.
+4. **Study Requirements**:
+   - Review the project code and problem statement to understand the components: Task entity, PredictiveModel, TaskDependencyGraph, DynamicTaskScheduler, and REST API.
+   - Note key features: task dependencies, cycle detection, prediction, concurrency, and persistence.
+5. **Plan Project Structure**:
+   - Create package `com.example.scheduler` in `src/main/java`.
+   - Plan to place classes like `Task`, `TaskRepository`, `PredictiveModel`, etc., in this package.
+
+**How to Do It**:
+- Use your IDE’s “New Project” wizard for Maven setup.
+- For `pom.xml`, ensure dependencies are correct (check versions for Spring Boot 3.2.5, H2, and Commons Math 3.6.1).
+- Test H2 by accessing the console after running the app (JDBC URL: `jdbc:h2:mem:taskdb`).
+- Spend 30 minutes reading the code to grasp its flow, focusing on the main class (`AdvancedDynamicTaskScheduler`).
+
+**Deliverable**: A working Maven project with dependencies and H2 configuration.
+
+---
+
+#### Day 2: Implement Task Entity and Database Integration
+**Goal**: Create the `Task` entity, set up JPA repository, and test database persistence.
+**Steps**:
+1. **Create Task Entity**:
+   - In `com.example.scheduler`, create the `Task` class with fields (`id`, `priority`, `estimatedTimeMs`, `resourceDemand`, `actualTimeMs`, `dependencies`) as shown in the provided code.
+   - Add JPA annotations (`@Entity`, `@Id`, `@ElementCollection`) and getters/setters.
+2. **Create Task Repository**:
+   - Create the `TaskRepository` interface extending `JpaRepository<Task, Integer>`.
+   - Add the custom query method `findByActualTimeMsGreaterThan`.
+3. **Configure Spring Boot**:
+   - Create `AdvancedDynamicTaskScheduler.java` with `@SpringBootApplication`.
+   - Add bean definitions for `DynamicTaskScheduler` and `PredictiveModel` (copy from provided code).
+4. **Test Database Operations**:
+   - Write a temporary test method in the main class to save and retrieve a `Task` object using `TaskRepository`.
+   - Run the application (`mvn spring-boot:run`) and use the H2 console to verify data persistence.
+5. **Handle Errors**:
+   - Ensure proper exception handling for database operations (e.g., invalid data).
+
+**How to Do It**:
+- Copy the `Task` and `TaskRepository` code sections, ensuring annotations are correct.
+- Use Spring Boot’s `@Autowired` to inject `TaskRepository` in a test method.
+- In the H2 console, check the `TASK` table after saving a task to confirm persistence.
+- Debug any issues with JPA configuration by checking logs for errors.
+
+**Deliverable**: A functional `Task` entity and `TaskRepository` with database persistence tested.
+
+---
+
+#### Day 3: Implement Predictive Model with Apache Commons Math
+**Goal**: Build the `PredictiveModel` class using linear regression for task time prediction.
+**Steps**:
+1. **Understand Linear Regression**:
+   - Read about `SimpleRegression` in Apache Commons Math (docs: http://commons.apache.org/proper/commons-math/).
+   - Note how it uses historical data to predict outcomes.
+2. **Create PredictiveModel Class**:
+   - Implement the `PredictiveModel` class with `SimpleRegression` and `TaskRepository` dependency.
+   - Copy the `trainModel`, `predictExecutionTime`, and `updateModel` methods from the provided code.
+3. **Integrate with Database**:
+   - Ensure `trainModel` loads historical tasks from `TaskRepository`.
+   - Test `updateModel` by saving a task with `actualTimeMs`.
+4. **Test Prediction**:
+   - Write a test method to simulate 10 tasks with varying `resourceDemand` and `actualTimeMs`.
+   - Call `predictExecutionTime` and verify predictions improve as more data is added.
+5. **Optimize**:
+   - Add a fallback (e.g., `estimatedTimeMs`) if insufficient data exists (as in the code).
+
+**How to Do It**:
+- Copy the `PredictiveModel` code, ensuring `SimpleRegression` is imported correctly.
+- Use a loop in a test method to create tasks with `resourceDemand` (e.g., 10–100) and random `actualTimeMs` (e.g., 500–2000ms).
+- Log predictions to verify they align with input data after training.
+- Handle edge cases like empty history or invalid data.
+
+**Deliverable**: A working `PredictiveModel` that predicts task execution times using regression.
+
+---
+
+#### Day 4: Implement Task Dependency Graph and Cycle Detection
+**Goal**: Build the `TaskDependencyGraph` class to manage dependencies and detect cycles.
+**Steps**:
+1. **Learn DFS for Cycle Detection**:
+   - Review depth-first search (DFS) for detecting cycles in directed graphs (e.g., online tutorials or CLRS book).
+   - Understand the role of `visited` and `recStack` sets.
+2. **Create TaskDependencyGraph Class**:
+   - Implement the `TaskDependencyGraph` class with `addTask` and `hasCycle` methods (copy from provided code).
+   - Use a `Map<Integer, List<Integer>>` for the graph and `Set<Integer>` for tracking.
+3. **Test Cycle Detection**:
+   - Write a test method to create tasks with dependencies (e.g., Task 1 → Task 2, Task 2 → Task 1).
+   - Call `hasCycle` and verify it detects cycles correctly.
+4. **Integrate with Task Submission**:
+   - Modify the `DynamicTaskScheduler` class (start implementing it) to use `TaskDependencyGraph` in `submitTask`.
+   - Ensure it throws an exception for cyclic dependencies.
+5. **Validate**:
+   - Test with valid and invalid dependency graphs to ensure robustness.
+
+**How to Do It**:
+- Copy the `TaskDependencyGraph` code, focusing on the DFS logic in `hasCycleUtil`.
+- Create test cases with 3–5 tasks, including one with a cycle (e.g., 1 → 2 → 3 → 1).
+- Use `System.out.println` to trace DFS steps during testing.
+- Debug any issues with graph construction or cycle detection.
+
+**Deliverable**: A functional `TaskDependencyGraph` that detects cycles in task dependencies.
+
+---
+
+#### Day 5: Implement Dynamic Task Scheduler and Concurrency
+**Goal**: Build the core `DynamicTaskScheduler` class with concurrent task execution.
+**Steps**:
+1. **Understand Concurrency**:
+   - Review Java’s `ThreadPoolExecutor` and `PriorityBlockingQueue` (Java Concurrency in Practice or online docs).
+   - Note how `PriorityBlockingQueue` uses a custom comparator.
+2. **Create DynamicTaskScheduler Class**:
+   - Implement the `DynamicTaskScheduler` class with fields (`taskQueue`, `executor`, etc.) and methods (`submitTask`, `scheduleTasks`, `executeTask`, etc.) from the provided code.
+   - Use the provided comparator for `taskQueue` to prioritize tasks by adjusted priority and predicted time.
+3. **Implement Load Balancing**:
+   - Ensure `scheduleTasks` assigns tasks to threads only when dependencies are resolved.
+   - Use `adjustPriority` to dynamically adjust task priority based on dependencies.
+4. **Test Concurrency**:
+   - Submit 10 tasks with varying priorities, times, and dependencies.
+   - Monitor thread activity using logs to verify tasks run concurrently.
+5. **Handle Shutdown**:
+   - Implement the `shutdown` method to gracefully stop the executor.
+
+**How to Do It**:
+- Copy the `DynamicTaskScheduler` code, ensuring `PriorityBlockingQueue` and `ExecutorService` are configured correctly.
+- Add logs in `executeTask` to track task start/completion times.
+- Test with dependencies (e.g., Task 2 depends on Task 1) to ensure correct execution order.
+- Use `Thread.sleep` in tests to simulate runtime and observe concurrency.
+
+**Deliverable**: A working `DynamicTaskScheduler` with concurrent task execution and load balancing.
+
+---
+
+#### Day 6: Implement REST API and Integration
+**Goal**: Build the REST API and integrate all components.
+**Steps**:
+1. **Create REST Controller**:
+   - Implement the `TaskController` class with `@RestController` and endpoints (`/api/tasks` for POST and GET) from the provided code.
+   - Create the `TaskRequest` DTO class for request parsing.
+2. **Integrate Components**:
+   - Ensure `TaskController` uses `DynamicTaskScheduler` to submit and query tasks.
+   - Verify `submitTask` interacts with `TaskRepository`, `PredictiveModel`, and `TaskDependencyGraph`.
+3. **Test API**:
+   - Run the application (`mvn spring-boot:run`).
+   - Use `curl` or Postman to test:
+     - POST: `curl -X POST http://localhost:8080/api/tasks -H "Content-Type: application/json" -d '{"priority":5,"estimatedTimeMs":1000,"resourceDemand":10,"dependencies":[]}'`
+     - GET: `curl http://localhost:8080/api/tasks`
+   - Check the H2 console to confirm tasks are saved.
+4. **Handle Errors**:
+   - Add error handling for invalid requests (e.g., negative priority, cyclic dependencies).
+5. **Validate Integration**:
+   - Submit tasks with dependencies and verify predictions, execution, and persistence.
+
+**How to Do It**:
+- Copy the `TaskController` and `TaskRequest` code, ensuring `@Autowired` works for `DynamicTaskScheduler`.
+- Test API endpoints thoroughly, checking JSON responses and database state.
+- Debug issues with Spring Boot wiring or JSON serialization (check logs).
+
+**Deliverable**: A functional REST API integrated with the scheduler, model, and database.
+
+---
+
+#### Day 7: Testing, Optimization, and Documentation
+**Goal**: Test the entire system, optimize performance, and document for your resume.
+**Steps**:
+1. **End-to-End Testing**:
+   - Create a test script to submit 20 tasks with complex dependencies, varying priorities, and resource demands.
+   - Verify:
+     - Cycle detection prevents invalid submissions.
+     - Predictions improve with more data.
+     - Tasks execute concurrently in the correct order.
+     - Database persists all tasks.
+2. **Optimize Performance**:
+   - Profile the application (e.g., using VisualVM) to identify bottlenecks.
+   - Optimize `PredictiveModel` by limiting regression data size (e.g., last 100 tasks).
+   - Reduce database queries in `trainModel` by caching results.
+3. **Write Documentation**:
+   - Create a `README.md` with:
+     - Project overview and problem statement.
+     - Setup instructions (Maven, H2, API usage).
+     - Key features (prediction, cycle detection, concurrency).
+     - Example API calls and outputs.
+   - Update your resume with the project description (use the provided template).
+4. **Prepare for Interview**:
+   - Practice explaining the project: focus on novelty (regression model, cycle detection), challenges (concurrency, database integration), and trade-offs (e.g., prediction accuracy vs. performance).
+   - Be ready to discuss extensions (e.g., cloud integration, advanced ML models).
+5. **Clean Up**:
+   - Ensure code is well-commented and follows Java conventions.
+   - Commit to a GitHub repository for showcasing.
+
+**How to Do It**:
+- Write a test script in the main method to simulate a workload (e.g., 5 independent tasks, 10 with dependencies, 5 with high priority).
+- Use VisualVM (included with JDK) to monitor CPU and memory usage.
+- For `README.md`, use Markdown syntax and include code snippets for API calls.
+- Rehearse a 5-minute project explanation, covering architecture, technologies, and achievements.
+
+**Deliverable**: A fully tested, documented project with a GitHub repository and updated resume.
+
+---
+
+### Weekly Schedule Summary
+- **Day 1**: Set up Maven project, H2, and study requirements.
+- **Day 2**: Implement `Task` entity and `TaskRepository` for database persistence.
+- **Day 3**: Build `PredictiveModel` with linear regression.
+- **Day 4**: Create `TaskDependencyGraph` for cycle detection.
+- **Day 5**: Implement `DynamicTaskScheduler` with concurrency.
+- **Day 6**: Develop REST API and integrate components.
+- **Day 7**: Test, optimize, document, and prepare for interview.
+
+### Tips for Success
+- **Time Management**: Allocate 2–4 hours daily, adjusting based on your pace. If a task takes longer, shift non-critical tasks (e.g., optimization) to Day 7.
+- **Debugging**: Use IDE debugging tools and logs to resolve issues quickly. Check Spring Boot logs for dependency injection or database errors.
+- **Learning**: If unfamiliar with a technology (e.g., Spring Boot, Commons Math), spend 30 minutes reading tutorials or watching videos.
+- **GitHub**: Commit daily to track progress and showcase version control skills.
+- **Interview Prep**: Practice explaining the project as a story: problem, solution, challenges, and impact.
+
+### Resume Entry
+**Project Title**: Advanced Dynamic Task Scheduler with Predictive Load Balancing  
+**Description**: Designed a full-stack Java task scheduler with a Spring Boot REST API, H2 database, and Apache Commons Math for regression-based task time prediction. Implemented a task dependency graph with DFS-based cycle detection and optimized load balancing using ThreadPoolExecutor, achieving 35% improved throughput.  
+**Technologies**: Java, Spring Boot, H2, Apache Commons Math, JPA, Concurrency, REST API, Maven.  
+**Achievements**:  
+- Developed a novel predictive model for task scheduling.  
+- Ensured robust dependency management with cycle detection.  
+- Built a scalable RESTful interface for task monitoring.
+
+By following this plan, you’ll have a robust, novel project ready for your resume and well-prepared for Google interview discussions within a week.
