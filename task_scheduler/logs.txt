@@ -1,0 +1,61 @@
+[[1;34mINFO[m] Scanning for projects...
+[[1;34mINFO[m] 
+[[1;34mINFO[m] [1m---------------------< [0;36mcom.example:task-scheduler[0;1m >---------------------[m
+[[1;34mINFO[m] [1mBuilding task-scheduler 1.0-SNAPSHOT[m
+[[1;34mINFO[m] [1m--------------------------------[ jar ]---------------------------------[m
+[[1;34mINFO[m] 
+[[1;34mINFO[m] [1m--- [0;32mexec-maven-plugin:3.1.0:java[m [1m(default-cli)[m @ [36mtask-scheduler[0;1m ---[m
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+ :: Spring Boot ::                (v3.2.5)
+
+2025-06-24T20:13:17.209+05:30  INFO 15033 --- [ulerTest.main()] c.example.scheduler.TaskSchedulerTest    : Starting TaskSchedulerTest using Java 17.0.15 with PID 15033 (/home/tanmesh/Desktop/Advanced Dynamic Task Scheduler/task_scheduler/target/classes started by tanmesh in /home/tanmesh/Desktop/Advanced Dynamic Task Scheduler/task_scheduler)
+2025-06-24T20:13:17.213+05:30  INFO 15033 --- [ulerTest.main()] c.example.scheduler.TaskSchedulerTest    : No active profile set, falling back to 1 default profile: "default"
+2025-06-24T20:13:17.636+05:30  INFO 15033 --- [ulerTest.main()] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025-06-24T20:13:17.683+05:30  INFO 15033 --- [ulerTest.main()] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 36 ms. Found 1 JPA repository interface.
+2025-06-24T20:13:18.209+05:30  INFO 15033 --- [ulerTest.main()] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2025-06-24T20:13:18.269+05:30  INFO 15033 --- [ulerTest.main()] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.4.4.Final
+2025-06-24T20:13:18.308+05:30  INFO 15033 --- [ulerTest.main()] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2025-06-24T20:13:18.549+05:30  INFO 15033 --- [ulerTest.main()] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2025-06-24T20:13:18.579+05:30  INFO 15033 --- [ulerTest.main()] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2025-06-24T20:13:18.735+05:30  INFO 15033 --- [ulerTest.main()] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection conn0: url=jdbc:h2:mem:taskdb user=SA
+2025-06-24T20:13:18.737+05:30  INFO 15033 --- [ulerTest.main()] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2025-06-24T20:13:18.765+05:30  WARN 15033 --- [ulerTest.main()] org.hibernate.orm.deprecation            : HHH90000025: H2Dialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2025-06-24T20:13:19.550+05:30  INFO 15033 --- [ulerTest.main()] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2025-06-24T20:13:19.612+05:30  INFO 15033 --- [ulerTest.main()] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2025-06-24T20:13:20.210+05:30  INFO 15033 --- [ulerTest.main()] c.example.scheduler.TaskSchedulerTest    : Started TaskSchedulerTest in 3.407 seconds (process running for 5.19)
+Executing task: Task 1 (Priority: 1)
+Executing task: Task 5 (Priority: 5)
+Executing task: Task 8 (Priority: 8)
+Completed task: Task 1
+Executing task: Task 2 (Priority: 2)
+Completed task: Task 2
+Executing task: Task 3 (Priority: 3)
+Completed task: Task 5
+Executing task: Task 6 (Priority: 6)
+Completed task: Task 3
+Executing task: Task 4 (Priority: 4)
+Completed task: Task 8
+Executing task: Task 9 (Priority: 9)
+Completed task: Task 6
+Executing task: Task 7 (Priority: 7)
+Completed task: Task 4
+Completed task: Task 9
+Executing task: Task 10 (Priority: 10)
+Completed task: Task 7
+Completed task: Task 10
+Shutting down executor, active count: true
+2025-06-24T20:15:20.222+05:30  INFO 15033 --- [ulerTest.main()] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2025-06-24T20:15:20.227+05:30  INFO 15033 --- [ulerTest.main()] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2025-06-24T20:15:20.232+05:30  INFO 15033 --- [ulerTest.main()] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
+[[1;34mINFO[m] [1m------------------------------------------------------------------------[m
+[[1;34mINFO[m] [1;32mBUILD SUCCESS[m
+[[1;34mINFO[m] [1m------------------------------------------------------------------------[m
+[[1;34mINFO[m] Total time:  02:04 min
+[[1;34mINFO[m] Finished at: 2025-06-24T20:15:20+05:30
+[[1;34mINFO[m] [1m------------------------------------------------------------------------[m
