@@ -1,43 +1,47 @@
 package com.example.scheduler;
 
-       import org.springframework.web.bind.annotation.*;
+     import org.springframework.web.bind.annotation.*;
 
-       import java.util.List;
-       import java.util.Map;
-       import java.util.HashMap;
+     import java.util.List;
+     import java.util.Map;
+     import java.util.HashMap;
 
-       @RestController
-       @RequestMapping("/api/tasks")
-       public class TaskController {
-           private final DynamicTaskScheduler dynamicTaskScheduler;
-           private final TaskRepository taskRepository;
+     import com.example.scheduler.DynamicTaskScheduler; // This should be used
 
-           public TaskController(DynamicTaskScheduler dynamicTaskScheduler, TaskRepository taskRepository) {
-               this.dynamicTaskScheduler = dynamicTaskScheduler;
-               this.taskRepository = taskRepository;
-           }
+     @RestController
+     @RequestMapping("/api/tasks")
+     public class TaskController {
+         private final DynamicTaskScheduler dynamicTaskScheduler;
+         private final TaskRepository taskRepository;
 
-           @PostMapping
-           public String createTask(@RequestBody Task task) {
-               taskRepository.save(task);
-               dynamicTaskScheduler.submitTask(task);
-               return "Task submitted: " + task.getId();
-           }
+         public TaskController(DynamicTaskScheduler dynamicTaskScheduler, TaskRepository taskRepository) {
+             this.dynamicTaskScheduler = dynamicTaskScheduler;
+             this.taskRepository = taskRepository;
+         }
 
-           @GetMapping
-           public List<Task> getAllTasks() {
-               return taskRepository.findAll();
-           }
+         @PostMapping
+         public String createTask(@RequestBody Task task) {
+             double predictedTime = dynamicTaskScheduler.getPredictiveModel().predict(task.getTaskSize());
+             task.setPredictedExecutionTime(predictedTime);
+             taskRepository.save(task);
+             dynamicTaskScheduler.submitTask(task);
+             return "Task submitted: " + task.getId();
+         }
 
-           @GetMapping("/{id}")
-           public Task getTask(@PathVariable String id) {
-               return taskRepository.findById(id).orElse(null);
-           }
+         @GetMapping
+         public List<Task> getAllTasks() {
+             return taskRepository.findAll();
+         }
 
-           @GetMapping("/status")
-           public Map<String, String> getTaskStatuses() {
-               Map<String, String> statuses = new HashMap<>();
-               taskRepository.findAll().forEach(task -> statuses.put(task.getId(), "Submitted")); // Placeholder
-               return statuses;
-           }
-       }
+         @GetMapping("/{id}")
+         public Task getTask(@PathVariable String id) {
+             return taskRepository.findById(id).orElse(null);
+         }
+
+         @GetMapping("/status")
+         public Map<String, String> getTaskStatuses() {
+             Map<String, String> statuses = new HashMap<>();
+             taskRepository.findAll().forEach(task -> statuses.put(task.getId(), "Submitted"));
+             return statuses;
+         }
+     }
