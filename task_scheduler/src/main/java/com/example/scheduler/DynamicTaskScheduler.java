@@ -22,14 +22,14 @@ public class DynamicTaskScheduler {
 
     @Transactional
     public void submitTask(Task task) {
-        taskRepository.save(task); // Save first
-        taskRepository.flush(); // Ensure persistence before cycle check
+        taskRepository.save(task);
+        taskRepository.flush();
         if (taskDependencyGraph.hasCycle(task.getId())) {
             throw new IllegalStateException("Cycle detected involving task: " + task.getId());
         }
         double predictedTime = predictiveModel.predict(task.getTaskSize());
         task.setPredictedExecutionTime(predictedTime);
-        taskRepository.save(task); // Update with predicted time
+        taskRepository.save(task);
         executorService.submit(() -> {
             System.out.println("Executing task: " + task.getId());
             try {

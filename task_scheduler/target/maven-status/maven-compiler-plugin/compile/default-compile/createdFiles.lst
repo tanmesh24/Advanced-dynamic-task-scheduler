@@ -3,7 +3,6 @@ com/example/scheduler/TaskController.class
 com/example/scheduler/TaskRepository.class
 com/example/scheduler/TemporaryApp.class
 com/example/scheduler/TaskRequest.class
-com/example/scheduler/AppConfig$ShutdownHook.class
 com/example/scheduler/AppConfig.class
 com/example/scheduler/TaskDependencyGraph.class
 com/example/scheduler/DynamicTaskScheduler.class

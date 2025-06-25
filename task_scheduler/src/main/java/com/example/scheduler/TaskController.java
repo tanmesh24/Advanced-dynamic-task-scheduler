@@ -17,7 +17,7 @@ public class TaskController {
 
     @PostMapping("/init")
     public String initializeTasks() {
-        taskRepository.deleteAll(); // Clear existing tasks
+        taskRepository.deleteAll();
         List<Task> tasks = List.of(
             new Task("task1", "Task 1", 1, 10, ""),
             new Task("task2", "Task 2", 2, 15, "task1"),
@@ -44,5 +44,10 @@ public class TaskController {
         } catch (IllegalStateException e) {
             return "Error: " + e.getMessage();
         }
+    }
+
+    @GetMapping("/data")
+    public List<Task> getTaskData() {
+        return taskRepository.findAll();
     }
 }

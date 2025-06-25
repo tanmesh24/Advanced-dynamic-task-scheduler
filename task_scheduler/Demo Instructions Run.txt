@@ -1,15 +1,12 @@
-Demo Instructions:
-- Run the project: java -jar target/task-scheduler-1.0-SNAPSHOT.jar
-- Access API: http://localhost:8081/api/tasks
-- Test endpoints:
-  - POST with Dependency:
-    - curl -X POST http://localhost:8081/api/tasks -H "Content-Type: application/json" -d '{"id":"taskA","name":"Task A","priority":2,"taskSize":25,"dependencies":["taskB"]}'
-    - curl -X POST http://localhost:8081/api/tasks -H "Content-Type: application/json" -d '{"id":"taskB","name":"Task B","priority":1,"taskSize":10,"dependencies":[]}'
-  - POST to Create Cycle (Optional):
-    - curl -X POST http://localhost:8081/api/tasks -H "Content-Type: application/json" -d '{"id":"taskC","name":"Task C","priority":3,"taskSize":15,"dependencies":["taskA"]}'
-    - curl -X POST http://localhost:8081/api/tasks -H "Content-Type: application/json" -d '{"id":"taskD","name":"Task D","priority":4,"taskSize":20,"dependencies":["taskC"]}'
-    - curl -X POST http://localhost:8081/api/tasks -H "Content-Type: application/json" -d '{"id":"taskA","name":"Task A","priority":2,"taskSize":25,"dependencies":["taskD"]}' (replaces earlier taskA)
-    - Note: With cycle detection, expect a log message indicating a cycle; without it, taskA may re-execute.
-  - GET: curl http://localhost:8081/api/tasks
-- View H2 console: http://localhost:8081/h2-console (JDBC URL: jdbc:h2:mem:taskdb, username: sa, no password)
-- Features: Dynamic task scheduling with predicted execution time (taskSize * 100ms, optionally adjusted by priority), dependency handling, and (optional) cycle detection.
+mvn clean install
+java -jar target/task-scheduler-1.0-SNAPSHOT.jar
+http://localhost:8081 - visualization
+curl -X POST http://localhost:8081/tasks/init
+curl -X POST http://localhost:8081/tasks -H "Content-Type: application/json" -d '{"id":"task11","name":"Task11","priority":2,"taskSize":10,"dependencies":""}'
+http://localhost:8081/h2-console     Use JDBC URL: jdbc:h2:file:./taskdb, username: sa, no password.
+SELECT * FROM TASK
+
+
+cycle detection
+curl -X POST http://localhost:8081/tasks -H "Content-Type: application/json" -d '{"id":"taskC","name":"TaskC","priority":1,"taskSize":10,"dependencies":"taskD"}'
+curl -X POST http://localhost:8081/tasks -H "Content-Type: application/json" -d '{"id":"taskD","name":"TaskD","priority":2,"taskSize":5,"dependencies":"taskC"}'
