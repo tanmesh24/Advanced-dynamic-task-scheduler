@@ -1,11 +1,8 @@
 package com.example.scheduler;
 
-     import org.springframework.stereotype.Component;
-
-     @Component
-     public class PredictiveModel {
-         public double predict(int taskSize) {
-             // Simple prediction: assume execution time scales linearly with taskSize
-             return taskSize * 100; // 100ms per unit of taskSize
-         }
-     }
+public class PredictiveModel {
+    public double predict(int taskSize) {
+        // Simplified prediction based on task size
+        return taskSize * 0.1; // Example: 10% of task size in seconds
+    }
+}
