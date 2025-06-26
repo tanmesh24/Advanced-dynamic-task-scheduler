@@ -1,18 +1,5 @@
 # 🧠 Advanced Dynamic Task Scheduler 🚀
 
-![Banner](https://raw.githubusercontent.com/tanmesh24/tanmesh24-advanced-dynamic-task-scheduler/main/assets/banner.png)
-
-## 🛠️ Tech Stack
-
-- **Framework**: Spring Boot 3.2.5
-- **Database**: H2 (file-based and in-memory)
-- **ORM**: JPA/Hibernate
-- **Frontend**: HTML5, CSS, Chart.js
-- **Real-Time**: Spring WebSocket
-- **Build Tool**: Maven
-- **Environment**: Java 17, VS Code on Linux
-
-## 🏷️ Badges
 [![Spring Boot](https://img.shields.io/badge/Spring%20Boot-3.2.5-green?logo=spring)](https://spring.io/projects/spring-boot)
 [![H2 Database](https://img.shields.io/badge/H2%20Database-Latest-blue?logo=database)](https://www.h2database.com/html/main.html)
 [![Chart.js](https://img.shields.io/badge/Chart.js-Latest-yellow?logo=chartdotjs)](https://www.chartjs.org/)
