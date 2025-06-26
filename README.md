@@ -2,6 +2,23 @@
 
 ![Banner](https://raw.githubusercontent.com/tanmesh24/tanmesh24-advanced-dynamic-task-scheduler/main/assets/banner.png)
 
+## 🛠️ Tech Stack
+
+- **Framework**: Spring Boot 3.2.5
+- **Database**: H2 (file-based and in-memory)
+- **ORM**: JPA/Hibernate
+- **Frontend**: HTML5, CSS, Chart.js
+- **Real-Time**: Spring WebSocket
+- **Build Tool**: Maven
+- **Environment**: Java 17, VS Code on Linux
+
+## 🏷️ Badges
+[![Spring Boot](https://img.shields.io/badge/Spring%20Boot-3.2.5-green?logo=spring)](https://spring.io/projects/spring-boot)
+[![H2 Database](https://img.shields.io/badge/H2%20Database-Latest-blue?logo=database)](https://www.h2database.com/html/main.html)
+[![Chart.js](https://img.shields.io/badge/Chart.js-Latest-yellow?logo=chartdotjs)](https://www.chartjs.org/)
+[![WebSocket](https://img.shields.io/badge/WebSocket-Spring%20Implementation-purple?logo=websockets)](https://docs.spring.io/spring-framework/docs/current/reference/html/web.html#websocket)
+[![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
+
 > A real-time, dependency-aware, asynchronous task scheduling and visualization system powered by Spring Boot, WebSockets, and Chart.js.
 
 ---
