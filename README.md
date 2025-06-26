@@ -101,5 +101,34 @@ tanmesh24-advanced-dynamic-task-scheduler/
 ```
 
 ---
+# 📊 Results
+
+Explore the project in action with these visual highlights:
+
+## ✅ Tasks on Gantt Chart
+
+<img src="/home/tanmesh/Pictures/Screenshots/Screenshot from 2025-06-26 23-02-23.png" alt="Gantt Chart with Tasks" width="700"/>
+
+A snapshot of the Gantt chart displaying tasks like **task1** and **task2**, visualized with color-coded priorities to highlight urgency and scheduling.
+
+---
+
+## 🔄 Cycle Detection
+
+<img src="/home/tanmesh/Pictures/Screenshots/Screenshot from 2025-06-26 23-04-06.png" alt="Cycle Detection" width="700"/>
+
+An example of the system detecting and preventing a **cyclic dependency**  
+(e.g., `taskA` ➝ `taskB` ➝ `taskA`).  
+The application ensures task execution remains deadlock-free.
+
+---
+
+## 💾 Database View
+
+<img src="/home/tanmesh/Pictures/Screenshots/Screenshot from 2025-06-26 23-01-17.png" width="700"/>
+
+A screenshot of the **H2 console** showing the `TASK` table, where all tasks and dependencies are **persisted and managed** in a relational format.
+
+---
 
 
