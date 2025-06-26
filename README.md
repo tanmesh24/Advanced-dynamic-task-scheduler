@@ -1,77 +1,101 @@
-# Advanced Dynamic Task Scheduler
+# 🧠 Advanced Dynamic Task Scheduler 🚀
 
-## Description
+![Banner](https://raw.githubusercontent.com/tanmesh24/tanmesh24-advanced-dynamic-task-scheduler/main/assets/banner.png)
 
-The Advanced Dynamic Task Scheduler is a Java-based Spring Boot application designed to manage and visualize task scheduling with real-time updates. This project leverages modern web technologies and a relational database to provide an interactive Gantt-style chart interface, making it ideal for task prioritization, dependency management, and execution tracking.
+> A real-time, dependency-aware, asynchronous task scheduling and visualization system powered by Spring Boot, WebSockets, and Chart.js.
 
-This project implements a dynamic task scheduling system that allows users to submit tasks with customizable properties such as priority, size, and dependencies. Tasks are processed asynchronously, with predicted execution times calculated by a mock predictive model, and their progress is visualized in a web-based Gantt chart. The application supports real-time updates via WebSocket technology, ensuring the chart reflects task completion without manual refreshes.
+---
 
-## Features
+## 📌 Overview
 
-- **Task Management:** Submit tasks via a REST API (`/tasks` endpoint) with attributes including `id`, `name`, `priority` (1-10), `taskSize`, and `dependencies`. The system detects cyclic dependencies and prevents invalid submissions.
-- **Real-Time Visualization:** A Gantt-style chart, rendered using Chart.js, displays tasks horizontally with colors indicating priority (red for 1-3, yellow for 4-6, green for 7-10). The chart updates automatically as tasks complete, powered by WebSocket connections.
-- **Database Persistence:** Utilizes an H2 database (file-based) for storing task data, ensuring data integrity.
-- **Asynchronous Processing:** Employs a thread pool executor to handle task execution, simulating real-world scheduling with delays based on predicted execution times.
-- **Testing and Debugging:** Includes unit tests covering cycle detection and task submission scenarios, and enhanced logging for troubleshooting.
+The **Advanced Dynamic Task Scheduler** is a Java-based project that enables intelligent task scheduling with support for:
+- Custom priorities
+- Dependency graphs with cycle detection
+- Predictive execution time modeling
+- Asynchronous scheduling
+- Live Gantt chart updates via WebSockets
 
-## Technologies Used
+This system is ideal for real-time workflow tracking and can be extended to support enterprise-grade process orchestration and monitoring.
 
-- **Framework:** Spring Boot 3.2.5
-- **Database:** H2 (in-memory and file-based) with JPA/Hibernate
-- **Frontend:** HTML5, CSS, Chart.js
-- **Real-Time:** WebSocket
-- **Build Tool:** Maven
-- **Java Version:** 17
+---
 
-## Installation
+## ✨ Key Features
 
-1.  **Clone the repository:**
+- ✅ **Task Submission via REST API**
+- 🔁 **Dependency Management with Cycle Detection**
+- ⏱️ **Execution Time Prediction with Mock AI Model**
+- 📊 **Gantt-style Real-Time Visualization**
+- 🧵 **Asynchronous Execution with Thread Pools**
+- 💾 **Persistent Storage using H2 Database**
+- 🧪 **JUnit & Mockito-Based Testing Suite**
+- 🌐 **Live Chart Updates via WebSockets**
 
-    ```bash
-    git clone <repository_url>
-    cd task_scheduler
-    ```
+---
 
-2.  **Build the project using Maven:**
+## 🖥️ Tech Stack
 
-    ```bash
-    mvn clean install
-    ```
+| Layer       | Technology               |
+|------------|---------------------------|
+| Backend     | Java 17, Spring Boot 3.2.5 |
+| Frontend    | HTML5, CSS, Chart.js       |
+| Real-Time   | WebSocket (Spring)         |
+| Database    | H2 (in-memory/file)        |
+| Testing     | JUnit 5, Mockito           |
+| Build Tool  | Maven                     |
 
-3.  **Run the application:**
+---
 
-    ```bash
-    mvn spring-boot:run
-    ```
+## 📁 Project Directory Structure
 
-    Alternatively, you can run the packaged JAR file:
+```text
+tanmesh24-advanced-dynamic-task-scheduler/
+├── Advanced_scheduler.txt
+│   └── 📄 High-level overview and notes on system architecture
+└── task_scheduler/
+    ├── Demo Instructions Run.txt
+    │   └── 📝 Instructions for running the demo locally
+    ├── logs.txt
+    │   └── 📂 Runtime logs captured during execution
+    ├── output.txt
+    │   └── 📂 Sample output from the scheduler
+    ├── pom.xml
+    │   └── ⚙️ Maven build configuration with dependencies
+    ├── taskdb.mv.db
+    │   └── 🛢️ File-based H2 database for task persistence
+    └── src/
+        ├── main/
+        │   ├── java/
+        │   │   └── com/example/scheduler/
+        │   │       ├── AppConfig.java
+        │   │       │   └── Spring context and thread pool config
+        │   │       ├── DynamicTaskScheduler.java
+        │   │       │   └── Core class to schedule and execute tasks
+        │   │       ├── PredictiveModel.java
+        │   │       │   └── Simulates execution time prediction logic
+        │   │       ├── Task.java
+        │   │       │   └── JPA entity representing a task
+        │   │       ├── TaskController.java
+        │   │       │   └── REST API controller for handling task requests
+        │   │       ├── TaskDependencyGraph.java
+        │   │       │   └── Detects cycles in task dependencies
+        │   │       ├── TaskRepository.java
+        │   │       │   └── JPA repository for data persistence
+        │   │       ├── TaskRequest.java
+        │   │       │   └── DTO for parsing incoming task requests
+        │   │       └── TemporaryApp.java
+        │   │           └── Main entry point for Spring Boot application
+        │   └── resources/
+        │       ├── application.properties
+        │       │   └── Configuration for port, DB, JPA, and WebSocket
+        │       └── static/
+        │           └── index.html
+        │               └── Gantt chart frontend with WebSocket integration
+        └── test/
+            └── java/com/example/scheduler/
+                └── TaskSchedulerTest.java
+                    └── JUnit test class for validating scheduling logic
+```
 
-    ```bash
-    java -jar target/*.jar
-    ```
+---
 
-## Usage
 
-1.  **Access the application:**
-
-    Open your web browser and navigate to `http://localhost:8081`.
-
-2.  **Submit tasks via REST API:**
-
-    Use a tool like `curl` or Postman to submit tasks to the `/tasks` endpoint. Example:
-
-    ```bash
-    curl -X POST -H "Content-Type: application/json" -d '{"id": "task13", "name": "Task 13", "priority": 2, "taskSize": 5, "dependencies": []}' http://localhost:8081/tasks
-    ```
-
-3.  **View the Gantt chart:**
-
-    The Gantt chart will display the tasks submitted. It updates in real-time as tasks complete.
-
-4.  **H2 Console:**
-
-    The H2 console is accessible at `/h2-console`.
-
-## License
-
-MIT License
